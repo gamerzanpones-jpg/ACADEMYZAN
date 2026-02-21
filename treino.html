@@ -7,11 +7,28 @@
 <body>
 
 <div class="container">
+
 <h1>Treino Inteligente</h1>
 
-<div class="card" id="treino"></div>
+<div class="card">
 
-<button onclick="gerarTreino()">Gerar Treino IA</button>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+<button onclick="mostrarDia('seg')">Segunda</button>
+<button onclick="mostrarDia('ter')">Terça</button>
+<button onclick="mostrarDia('qua')">Quarta</button>
+<button onclick="mostrarDia('qui')">Quinta</button>
+<button onclick="mostrarDia('sex')">Sexta</button>
+<button onclick="mostrarDia('bonus')">Bônus</button>
+
+</div>
+
+<hr>
+
+<div id="treino"></div>
+
+</div>
+
 <button onclick="ir('painel.html')">Voltar</button>
 
 </div>

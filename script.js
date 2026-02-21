@@ -113,69 +113,47 @@ historico.innerHTML=t||"Sem registros";
 }
 function gerarDieta(){
 
-let peso=parseFloat(document.getElementById("peso").value);
-let altura=parseFloat(document.getElementById("altura").value);
+let peso = document.getElementById("peso").value;
+let altura = document.getElementById("altura").value;
 
-if(!peso||!altura)return;
+if(peso=="" || altura==""){
+alert("Preencha peso e altura");
+return;
+}
 
-localStorage.setItem("peso",peso);
+peso=parseFloat(peso);
+altura=parseFloat(altura);
 
 let imc=peso/(altura*altura);
 
-let objetivo;
+let objetivo="manter";
 if(imc>25) objetivo="emagrecer";
-else if(imc<18.5) objetivo="ganhar";
-else objetivo="manter";
+if(imc<18.5) objetivo="ganhar";
 
-// alimentos baratos base
-const base={
-proteina:["Ovo","Frango","Sardinha","Atum","Carne moída"],
-carbo:["Arroz","Macarrão","Batata","Aveia","Pão"],
-legumes:["Cenoura","Abobrinha","Tomate","Alface","Repolho"]
-};
+localStorage.setItem("peso",peso);
 
-// sorteador
-function rand(arr){
-return arr[Math.floor(Math.random()*arr.length)];
+const proteina=["Ovo","Frango","Sardinha","Atum","Carne moída"];
+const carbo=["Arroz","Macarrão","Batata","Aveia","Pão"];
+const legume=["Cenoura","Repolho","Tomate","Abobrinha","Alface"];
+
+function sorteio(lista){
+return lista[Math.floor(Math.random()*lista.length)];
 }
 
-// gerar semana
 let dias=["Seg","Ter","Qua","Qui","Sex","Sab","Dom"];
-let html=`<h2>IMC: ${imc.toFixed(1)}</h2>
+
+let html=`<h2>IMC ${imc.toFixed(1)}</h2>
 <b>Objetivo:</b> ${objetivo}<hr>`;
 
 dias.forEach(d=>{
-
-let p=rand(base.proteina);
-let c=rand(base.carbo);
-let l=rand(base.legumes);
-
 html+=`
-<div style="margin:15px 0;padding:15px;background:#0f172a;border-radius:12px">
+<div style="background:#0f172a;padding:15px;border-radius:12px;margin:10px 0">
 <h3>${d}</h3>
-🍳 Café — ${c} + ovo<br>
-🍛 Almoço — ${p} + ${c} + ${l}<br>
-🥪 Jantar — ${p} + salada<br>
-</div>
-`;
+Café → ${sorteio(carbo)} + ovo<br>
+Almoço → ${sorteio(proteina)} + ${sorteio(carbo)} + ${sorteio(legume)}<br>
+Jantar → ${sorteio(proteina)} + salada
+</div>`;
 });
 
-html+=`
-<hr>
-💡 Dica IA: ${
-objetivo=="emagrecer"
-?"Reduza açúcar e faça cardio diário"
-:objetivo=="ganhar"
-?"Aumente porções e proteína"
-:"Mantenha rotina equilibrada"
-}
-`;
-
 document.getElementById("resultado").innerHTML=html;
-
-
-// salvar histórico peso
-let hist=JSON.parse(localStorage.getItem("hist")||"[]");
-hist.push({peso:peso,data:new Date().toLocaleDateString()});
-localStorage.setItem("hist",JSON.stringify(hist));
 }

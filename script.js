@@ -1,3 +1,28 @@
+function login(){
+let u=user.value;
+let p=pass.value;
+
+if(u=="admin" && p=="1234"){
+localStorage.setItem("logado","sim");
+location="painel.html";
+}else{
+msg.innerText="Login inválido";
+}
+}
+
+if(localStorage.getItem("logado")!="sim" && !location.pathname.includes("index")){
+location="index.html";
+}
+
+function logout(){
+localStorage.removeItem("logado");
+location="index.html";
+}
+
+function ir(p){
+location=p;
+}
+
 function gerarTreino(){
 
 let peso = localStorage.getItem("peso") || 80;
@@ -65,5 +90,10 @@ ${cardio}
 Atividade livre: esporte, caminhada ou bike 40min
 `;
 
-document.getElementById("treino").innerHTML=html;
+let area=document.getElementById("treino");
+if(area) area.innerHTML=html;
+}
+
+if(document.getElementById("treino")){
+gerarTreino();
 }
